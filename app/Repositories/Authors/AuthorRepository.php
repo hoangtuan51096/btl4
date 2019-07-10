@@ -26,7 +26,10 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function update($attribute, $id)
     {
-
+        $updateAuthor = Author::find($id);
+        $updateAuthor->name = $attribute['name'];
+        $updateAuthor->save();
+        return $updateAuthor;
     }
 
     public function create($attribute)
@@ -37,6 +40,11 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function delete($id)
     {
-    	
+    	$author = $this->find($id);
+        if ($author) {
+            $author->delete();
+            return true;
+        }
+        return false;
     }
 }

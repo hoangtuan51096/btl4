@@ -47,7 +47,8 @@ class AuthorController extends Controller
 
     public function destroy($id)
     {
-        //
+        $deleteAuthor = $this->author->delete($id);
+        return redirect()->route('author.index');
     }
 
     public function addAuthor(Request $request)
@@ -61,5 +62,12 @@ class AuthorController extends Controller
         $author = $this->author->find($request->id);
         $rowid = $request->rowid;
         return view('admin.authors.edit-author', compact('author', 'rowid'));
+    }
+
+    public function updateAuthorAjax(Request $request)
+    {
+        $updateAuthor = $this->author->update($request->all(), $request->id);
+        $rowid = $request->rowid;
+        return view('admin.authors.update-author', compact('updateAuthor', 'rowid'));
     }
 }

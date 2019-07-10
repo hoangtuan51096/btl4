@@ -32,7 +32,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('edit-author', 'Admin\AuthorController@editAuthorAjax');
 
-        Route::post('edit-author', 'Admin\AuthorController@updateAuthorAjax');
+        Route::post('update-author', 'Admin\AuthorController@updateAuthorAjax');
 
         Route::get('edit-user', 'Admin\UserController@editUserAjax');
 

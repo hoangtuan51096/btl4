@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Books\BookRepositoryInterface;
 
 class BookController extends Controller
 {
+    protected $bookRepository;
+
+    public function __construct(BookRepositoryInterface $bookRepository)
+    {
+        $this->book = $bookRepository;
+    }
+
     public function index()
     {
-        //
+        
     }
 
     public function create()

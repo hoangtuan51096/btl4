@@ -14,7 +14,6 @@
 @push('after_js')
 	<script type="text/javascript">
 		$(document).on('click', 'button.save-user', function(event){
-        console.log(1);
         event.preventDefault();
         var id = $(this).data('id');
         var rowid = $(this).data('rowid');

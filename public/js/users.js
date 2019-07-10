@@ -8,6 +8,9 @@ $(document).ready(function(){
             role : $('#role').val(),
         }
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             url: 'create-user',
             type: 'POST',
             dataType: 'html',
@@ -15,6 +18,7 @@ $(document).ready(function(){
             success: function(result){
                 $('#result').html(result);
                 $('#myModal').modal('hide');
+                $('.modal-backdrop').remove()
             }
         });
     });

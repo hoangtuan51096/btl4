@@ -4,17 +4,15 @@
     <div class="container">
         <div class="header"> QUAN LY TAI KHOAN</div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                Tạo mới tài khoản
-            </button>
-            <div>
-                <div class="modal" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tạo mới tài khoản</button>
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Tao moi tai khoan</h4>
-                            <div class="alert alert-danger print-error-msg" style="display:none"></div>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5 class="modal-title" id="exampleModalLabel">Tao moi tai khoan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -31,9 +29,10 @@
                                 <button type="button" class="btn btn-info" id="createUser">Tao moi</button>
                             </form>
                         </div>
+                        <div class="modal-footer">
+                        </div>
                     </div>
                 </div>
-              </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs">
