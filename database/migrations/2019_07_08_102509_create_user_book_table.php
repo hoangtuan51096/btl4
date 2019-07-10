@@ -14,11 +14,11 @@ class CreateUserBookTable extends Migration
     public function up()
     {
         Schema::create('user_book', function (Blueprint $table) {
-            $table->unsignedbigInteger('userID');
-            $table->foreign('userID')
+            $table->unsignedbigInteger('user_id');
+            $table->foreign('user_id')
                   ->references('id')->on('users');
-            $table->unsignedbigInteger('bookID');
-            $table->foreign('bookID')
+            $table->unsignedbigInteger('book_id');
+            $table->foreign('book_id')
                   ->references('id')->on('books');
             $table->integer('status');
             $table->dateTime('end_at')->nullable();

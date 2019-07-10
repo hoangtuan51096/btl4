@@ -15,11 +15,15 @@ class RepositoriesServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'App\Repositories\Users\UserRepositoryInterface',
-            'App\Repositories\Users\UserRepository',
-            'App\Repositories\Books\BookRepositoryInterface',
-            'App\Repositories\Books\BookRepository',
+            'App\Repositories\Users\UserRepository'
+        );
+        $this->app->bind(
             'App\Repositories\Authors\AuthorRepositoryInterface',
             'App\Repositories\Authors\AuthorRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Books\BookRepositoryInterface',
+            'App\Repositories\Books\BookRepository'
         );
     }
 

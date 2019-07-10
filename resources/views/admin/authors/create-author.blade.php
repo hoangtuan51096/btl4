@@ -1,0 +1,1 @@
+<h1>{{ $addAuthor->name }}</h1>

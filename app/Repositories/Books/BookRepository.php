@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Users;
+namespace App\Repositories\Books;
 
 use App\Models\Book;
 use App\Repositories\Books\BookRepositoryInterface;

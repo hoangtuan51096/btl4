@@ -20,19 +20,25 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function() {
-    	Route::resource('user', 'Admin\UserController');
+        Route::resource('user', 'Admin\UserController');
 
-    	Route::resource('book', 'Admin\BookController');
+        Route::resource('book', 'Admin\BookController');
 
-    	Route::resource('author', 'Admin\AuthorController');
+        Route::resource('author', 'Admin\AuthorController');
 
-    	Route::post('create-user', 'Admin\UserController@addUser')->name('createUser');
+        Route::post('create-user', 'Admin\UserController@addUser');
 
-    	Route::get('edit-user', 'Admin\UserController@editUserAjax');
+        Route::post('create-author', 'Admin\AuthorController@addAuthor');
 
-    	Route::post('edit-user', 'Admin\UserController@updateUserAjax');
+        Route::get('edit-author', 'Admin\AuthorController@editAuthorAjax');
 
-    	Route::post('my-form','Admin\UserController@myformPost');
+        Route::post('edit-author', 'Admin\AuthorController@updateAuthorAjax');
+
+        Route::get('edit-user', 'Admin\UserController@editUserAjax');
+
+        Route::post('edit-user', 'Admin\UserController@updateUserAjax');
+
+        Route::post('my-form','Admin\UserController@myformPost');
     });
 });
 
