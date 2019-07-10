@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 interface AbstractRepositoryInterface
 {
+	public function getList();
+	
     public function all();
 
     public function find($id);

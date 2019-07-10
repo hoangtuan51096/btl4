@@ -59,6 +59,8 @@
                 </tr>
             </thead>
             <tbody>
+                <div id="result">
+                </div>
                 @foreach($allUsers as $key => $user)
                 <tr>
                     <th scope="row">{{  $key+1 }}</th>
@@ -77,8 +79,6 @@
                     </td>
                 </tr>
                 @endforeach
-                <div id="result">
-                </div>
             </tbody>
         </table>
         {{ $allUsers->links() }}

@@ -50,7 +50,7 @@ class AuthorController extends Controller
         $deleteAuthor = $this->author->delete($id);
         return redirect()->route('author.index');
     }
-
+    
     public function addAuthor(Request $request)
     {
         $addAuthor = $this->author->create($request->all());

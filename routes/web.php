@@ -28,11 +28,17 @@ Route::prefix('admin')->group(function () {
 
         Route::post('create-user', 'Admin\UserController@addUser');
 
+        Route::post('create-book', 'Admin\BookController@addBook');
+
         Route::post('create-author', 'Admin\AuthorController@addAuthor');
 
         Route::get('edit-author', 'Admin\AuthorController@editAuthorAjax');
 
         Route::post('update-author', 'Admin\AuthorController@updateAuthorAjax');
+
+        Route::get('edit-book', 'Admin\BookController@editBookAjax');
+
+        Route::post('update-book', 'Admin\BookController@updateBookAjax');
 
         Route::get('edit-user', 'Admin\UserController@editUserAjax');
 

@@ -1,0 +1,1 @@
+<h1>{{ $addBook->name }}</h1>

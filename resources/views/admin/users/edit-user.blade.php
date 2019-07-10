@@ -1,5 +1,4 @@
-
-<th scope="row">{{  $rowid }}</th>
+<th scope="row">{{ $rowid }}</th>
 <td>{{ $user->account }}</td>
 <td>{{ $user->email }}</td>
 <form >
@@ -11,23 +10,3 @@
         </div>
     </td>
 </form>
-@push('after_js')
-	<script type="text/javascript">
-		$(document).on('click', 'button.save-user', function(event){
-        event.preventDefault();
-        var id = $(this).data('id');
-        var rowid = $(this).data('rowid');
-        var tr = $(this).parents('tr');
-        var name = tr.find('td.name').children.val();
-        $ajax({
-            url: 'edit-user',
-            type: 'POST',
-            data: {id: id, name: name, rowid: rowid},
-            success: function(){
-                tr.empty();
-                tr.html(result);
-            }
-        });
-    });
-	</script>
-@endpush

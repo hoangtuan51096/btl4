@@ -9,7 +9,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 {
     public function all()
     {
-        return Book::all();
+        return Author::all();
     }
 
     public function getList()

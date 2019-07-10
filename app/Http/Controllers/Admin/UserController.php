@@ -71,6 +71,6 @@ class UserController extends Controller
     {
         $updateUser = $this->user->update($request->all(), $request->id);
         $rowid = $request->rowid;
-        return view('admin.users.update-user', compact('updateUsers', 'rowid'));
+        return view('admin.users.update-user', compact('updateUser', 'rowid'));
     } 
 }

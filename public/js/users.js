@@ -26,5 +26,23 @@ $(document).ready(function(){
         event.preventDefault();
         ajaxLoad('GET', 'edit-user', $(this));
     })
-    
+    $(document).on('click', 'button.save-user', function(event){
+        event.preventDefault();
+        var id = $(this).data('id');
+        var rowid = $(this).data('rowid');
+        var tr = $(this).parents('tr');
+        var name = tr.find('td.name').children().val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'edit-user',
+            type: 'POST',
+            data: {id: id, name: name, rowid: rowid},
+            success: function(result){
+                tr.empty();
+                tr.html(result);
+            }
+        });
+    }); 
 });

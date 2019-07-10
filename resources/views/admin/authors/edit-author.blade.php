@@ -1,4 +1,4 @@
-<th scope="row">{{  $rowid }}</th>
+<th scope="row">{{ $rowid }}</th>
 <form >
     <td class="name"><input classtype="text" name="name" value="{{ $author->name }}"></td>
     <td>{{ count($author->book) }}</td>
