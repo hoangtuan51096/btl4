@@ -25,5 +25,17 @@ Route::prefix('admin')->group(function () {
     	Route::resource('book', 'Admin\BookController');
 
     	Route::resource('author', 'Admin\AuthorController');
+
+    	Route::post('create-user', 'Admin\UserController@addUser')->name('createUser');
+
+    	Route::get('edit-user', 'Admin\UserController@editUserAjax');
+
+    	Route::post('edit-user', 'Admin\UserController@updateUserAjax');
+
+    	Route::post('my-form','Admin\UserController@myformPost');
     });
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

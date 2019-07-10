@@ -1,0 +1,1 @@
+<h1>{{ $addUser->name }}</h1>

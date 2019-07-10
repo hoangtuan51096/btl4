@@ -9,4 +9,8 @@ class Book extends Model
     protected $fillable = [
         'authorID', 'name'
     ];
+    public function author()
+    {
+    	return $this->belongsTo(Author::class);
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Users\UserRepositoryInterface;
+use App\Http\Requests\UserRequest;
+use Validator;
 
 class UserController extends Controller
 {
@@ -17,7 +19,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $allUsers = $this->user->all();
+        $allUsers = $this->user->getList();
         return view('admin.users.list-users', compact('allUsers'));
     }
 
@@ -26,9 +28,10 @@ class UserController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $addUser = $this->user->create($request->all());
+        return view('admin.users.create', compact('addUser'));
     }
 
     public function show($id)
@@ -48,6 +51,26 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        //
+        $deleteUser = $this->user->delete($id);
+        return redirect()->route('user.index');
     }
+
+    public function addUser(UserRequest $request)
+    {
+        $addUser = $this->user->create($request->all());
+        return view('admin.users.create-user', compact('addUser'))->render();
+    }
+
+    public function editUserAjax(Request $request)
+    {
+        $user = $this->user->find($request->id);
+        $rowid = $request->rowid;
+        return view('admin.users.edit-user', compact('user', 'rowid'));
+    }
+    public function updateUserAjax(Request $request)
+    {
+        $updateUser = $this->user->update($request->all(), $request->id);
+        $rowid = $request->rowid;
+        return view('admin.users.update-user', compact('updateUsers', 'rowid'));
+    } 
 }

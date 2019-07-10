@@ -7,9 +7,10 @@ use App\Repositories\Books\BookRepositoryInterface;
 
 class BookRepository implements BookRepositoryInterface
 {
-    public function all()
+    public function getList()
     {
-        return Book::all();
+        $listBooks = Book::with('author')->paginate(5);
+        return $listBooks;
     }
 
     public function find($id)

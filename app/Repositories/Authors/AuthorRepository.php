@@ -12,6 +12,12 @@ class AuthorRepository implements AuthorRepositoryInterface
         return Book::all();
     }
 
+    public function getList()
+    {
+        $listAuthor = Author::paginate(5);
+        return $listAuthor;
+    }
+
     public function find($id)
     {
 
