@@ -70,4 +70,22 @@ class AuthorController extends Controller
         $rowid = $request->rowid;
         return view('admin.authors.update-author', compact('updateAuthor', 'rowid'));
     }
+
+    public function getAllTrash()
+    {
+        $trashAuthor = $this->author->getTrash();
+        return view('admin.trash.author-trash', compact('trashAuthor'));
+    }
+
+    public function restoreTrash(Request $request)
+    {
+        $restoreAuthor = $this->author->restoreTrash($request->id);
+        return redirect()->route('author.index');
+    }
+
+    public function deleteTrash(Request $request)
+    {
+        $deleteAuthor = $this->author->hardDelete($request->id);
+        return redirect()->route('author.index');
+    }
 }

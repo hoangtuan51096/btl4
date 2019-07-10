@@ -46,4 +46,23 @@ class UserRepository implements UserRepositoryInterface
         }
         return false;
     }
+
+    public function getTrash()
+    {
+        $trashUser = User::onlyTrashed()->get();
+        return $trashUser;
+    }
+
+    public function restoreTrash($id)
+    {
+        $restoreUser = User::withTrashed()->find($id);
+        $restoreUser->restore();
+        return $restoreUser;
+    }
+
+    public function hardDelete($id)
+    {
+        $deleteUser = User::forceDelete($id);
+        return $deleteUserk;
+    }
 }

@@ -47,4 +47,23 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
         return false;
     }
+
+    public function getTrash()
+    {
+        $trashAuthor = Author::onlyTrashed()->get();
+        return $trashAuthor;
+    }
+
+    public function restoreTrash($id)
+    {
+        $restoreAuthor = Author::withTrashed()->find($id);
+        $restoreAuthor->restore();
+        return $restoreAuthor;
+    }
+
+    public function hardDelete($id)
+    {
+        $deleteAuthor = Author::forceDelete($id);
+        return $deleteAuthor;
+    }
 }

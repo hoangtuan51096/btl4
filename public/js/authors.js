@@ -1,6 +1,5 @@
 $(document).ready(function(){
     $('button#createAuthor.btn.btn-info').click(function(){
-        alert(1);
         var data = {
             name : $('#name').val(),
         }

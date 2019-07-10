@@ -72,5 +72,23 @@ class UserController extends Controller
         $updateUser = $this->user->update($request->all(), $request->id);
         $rowid = $request->rowid;
         return view('admin.users.update-user', compact('updateUser', 'rowid'));
-    } 
+    }
+
+    public function getAllTrash()
+    {
+        $trashUser = $this->user->getTrash();
+        return view('admin.trash.user-trash', compact('trashUser'));
+    }
+
+    public function restoreTrash(Request $request)
+    {
+        $restoreUser = $this->user->restoreTrash($request->id);
+        return redirect()->route('user.index');
+    }
+
+    public function deleteTrash(Request $request)
+    {
+        $deleteUser = $this->user->hardDelete($request->id);
+        return redirect()->route('user.index');
+    }
 }

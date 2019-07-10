@@ -78,4 +78,22 @@ class BookController extends Controller
         $rowid = $request->rowid;
         return view('admin.books.update-book', compact('updateBook', 'rowid'));
     }
+
+    public function getAllTrash()
+    {
+        $trashBook = $this->book->getTrash();
+        return view('admin.trash.book-trash', compact('trashBook'));
+    }
+
+    public function restoreTrash(Request $request)
+    {
+        $restoreBook = $this->book->restoreTrash($request->id);
+        return redirect()->route('book.index');
+    }
+
+    public function deleteTrash(Request $request)
+    {
+        $deleteBook = $this->book->hardDelete($request->id);
+        return redirect()->route('book.index');
+    }
 }

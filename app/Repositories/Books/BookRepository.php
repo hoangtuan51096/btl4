@@ -48,4 +48,23 @@ class BookRepository implements BookRepositoryInterface
         }
         return false;
     }
+
+    public function getTrash()
+    {
+        $trashBook = Book::onlyTrashed()->get();
+        return $trashBook;
+    }
+
+    public function restoreTrash($id)
+    {
+        $restoreBook = Book::withTrashed()->find($id);
+        $restoreBook->restore();
+        return $restoreBook;
+    }
+
+    public function hardDelete($id)
+    {
+        $deleteBook = Book::forceDelete($id);
+        return $deleteBook;
+    }
 }

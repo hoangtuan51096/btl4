@@ -44,7 +44,25 @@ Route::prefix('admin')->group(function () {
 
         Route::post('edit-user', 'Admin\UserController@updateUserAjax');
 
-        Route::post('my-form','Admin\UserController@myformPost');
+        Route::get('trash','Admin\TrashController@index')->name('trashIndex');
+
+        Route::get('trash-user','Admin\UserController@getAllTrash');
+
+        Route::get('trash-author','Admin\AuthorController@getAllTrash');
+
+        Route::get('trash-book','Admin\BookController@getAllTrash');
+
+        Route::post('restore-user','Admin\UserController@restoreTrash')->name('restoreUser');
+
+        Route::post('restore-author','Admin\AuthorController@restoreTrash')->name('restoreAuthor');
+
+        Route::post('restore-book','Admin\BookController@restoreTrash')->name('restoreBook');
+
+        Route::post('delete-user','Admin\UserController@deleteTrash')->name('deleteUser');
+
+        Route::post('delete-author','Admin\AuthorController@deleteTrash')->name('deleteAuthor');
+
+        Route::post('delete-book','Admin\BookController@deleteTrash')->name('deleteBook');
     });
 });
 
