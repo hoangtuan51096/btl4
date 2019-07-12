@@ -13,16 +13,37 @@ $(document).ready(function(){
             },
             url: 'create-user',
             type: 'POST',
-            dataType: 'html',
+            dataType: 'json',
             data: data,
             success: function(result){
-                $('#result').html(result);
-                $('#myModal').modal('hide');
-                $('.modal-backdrop').remove()
+                if (result.errors !== null) {
+                    let errorsHtml = '<div class="alert alert-danger">';
+                    errorsHtml += result.errors.map(function(error) {
+                        return `<li>${error}</li>`;
+                    }).join('') + '</div>';
+
+                    $('.errors').html(errorsHtml);
+
+                    return;
+                } else {
+                    $('#result').html(result);
+                    $('#myModal').modal('hide');
+                    $('.modal-backdrop').remove()
+                }
+                console.log(result);
+            },
+            error: function(request, status, error){
+                json = $.parseJSON(request.responseText);
+                console.log(request);
+                $.each(json.errors, function(key, value){
+                    $('.alert-danger').show();
+                    $('.alert-danger').append('<p>'+value+'</p>');
+                });
+                $("#result").html('');
             }
         });
     });
-    $('button.edit').click(function(event){
+    $(document).on('click', 'button.edit', function(event){
         event.preventDefault();
         ajaxLoad('GET', 'edit-user', $(this));
     })
@@ -40,8 +61,10 @@ $(document).ready(function(){
             type: 'POST',
             data: {id: id, name: name, rowid: rowid},
             success: function(result){
+                //console.log(result)
                 tr.empty();
                 tr.html(result);
+                //$('#result').append('dwqdwq');
             }
         });
     }); 

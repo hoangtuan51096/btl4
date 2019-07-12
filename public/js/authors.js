@@ -12,9 +12,20 @@ $(document).ready(function(){
             dataType: 'html',
             data: data,
             success: function(result){
-                $('#row-author').html(result);
-                $('#myModal').modal('hide');
-                $('.modal-backdrop').remove()
+                if (result.errors !== null) {
+                    let errorsHtml = '<div class="alert alert-danger">';
+                    errorsHtml += result.errors.map(function(error) {
+                        return `<li>${error}</li>`;
+                    }).join('') + '</div>';
+
+                    $('.errors').html(errorsHtml);
+
+                    return;
+                } else {
+                    $('#result').html(result);
+                    $('#myModal').modal('hide');
+                    $('.modal-backdrop').remove()
+                }
             }
         });
     });

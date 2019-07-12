@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="col-md-8">
+        <div class="header"> 
+            <div>QUAN LY TAI KHOAN</div>
+        </div>
+    </div>
+    <div class="col-md-4 ">
+        <div class="float-left" id="result">
+        </div>
+    </div>
     <div class="container">
-        <div class="header"> QUAN LY TAI KHOAN</div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tạo mới tài khoản</button>
             <div class="modal" id="myModal">
@@ -15,6 +23,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="errors"></div>
                             <form>
                                 @csrf
                                 Account:<input id="account" type="text" class="form-control" name="account">
@@ -35,7 +44,7 @@
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto nav-tabs">
+                <ul class="navbar-nav ml-auto nav-tabs float-right">
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Tất cả</a>
                     </li>
@@ -52,15 +61,13 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">STT</th>
-                    <th scope="col">Account</th>
+                    <th scope="col">Tên tài khoản</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Tên người dùng</th>
+                    <th scope="col">Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                <div id="result">
-                </div>
                 @foreach($allUsers as $key => $user)
                 <tr>
                     <th scope="row">{{  $key+1 }}</th>
@@ -69,11 +76,11 @@
                     <td>{{ $user->name }}</td>
                     <td>
                         <div class="row">
-                            <button name="edit" data-id="{{ $user->id }}" data-rowid="{{ $key+1 }}" class="edit"> Edit</button> 
+                            <button name="edit" data-id="{{ $user->id }}" data-rowid="{{ $key+1 }}" class="edit">Sửa</button> 
                             <form action="{{ route('user.destroy', $user->id) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                                <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="DELETE" name="delete"/>
+                                <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="Xóa" name="delete"/>
                             </form>
                         </div>
                     </td>

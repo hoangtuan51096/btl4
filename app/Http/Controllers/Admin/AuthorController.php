@@ -53,6 +53,13 @@ class AuthorController extends Controller
     
     public function addAuthor(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'name' => ['required', 'string']
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
         $addAuthor = $this->author->create($request->all());
         return view('admin.authors.create-author', compact('addAuthor'))->render();
     }

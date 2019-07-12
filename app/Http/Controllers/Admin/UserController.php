@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Users\UserRepositoryInterface;
 use App\Http\Requests\UserRequest;
-use Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -55,8 +55,19 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function addUser(UserRequest $request)
+    public function addUser(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'account' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role' => [Rule::in(['user', 'admin']), 'required']
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
         $addUser = $this->user->create($request->all());
         return view('admin.users.create-user', compact('addUser'))->render();
     }

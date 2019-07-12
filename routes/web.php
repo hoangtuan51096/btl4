@@ -69,3 +69,18 @@ Route::prefix('admin')->group(function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function() {
+    Route::resource('book-client', 'BookController');
+
+    Route::resource('user-client', 'UserController');
+
+    Route::get('view-rent-book','BookController@viewRentBook');
+
+    Route::get('detail-book','BookController@viewDetailBook');
+
+    Route::post('rent-book','UserController@rentBook')->name('rentBook');
+
+    Route::get('give-back-book','UserController@viewGiveBackBook')->name('viewGiveBackBook');
+
+    Route::post('give-back-book','UserController@giveBackBook')->name('giveBackBook');
+});

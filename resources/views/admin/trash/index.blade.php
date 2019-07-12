@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="header"> QUAN LY THUNG GIAC</div>
+        <div class="header"> QUAN LY THUNG RAC</div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs">

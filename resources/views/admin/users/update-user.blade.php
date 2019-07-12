@@ -4,11 +4,11 @@
 <td>{{ $updateUser->name }}</td>
 <td>
     <div class="row">
-        <button name="edit" data-id="{{ $updateUser->id }}" data-rowid="{{ $rowid }}" class="edit"> Edit</button> 
+        <button name="edit" data-id="{{ $updateUser->id }}" data-rowid="{{ $rowid }}" class="edit">Sửa</button> 
         <form action="{{ route('user.destroy', $updateUser->id) }}" method="POST">
             @method('DELETE')
             @csrf
-            <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="DELETE" name="delete"/>
+            <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="Xóa" name="delete"/>
         </form>
     </div>
 </td>

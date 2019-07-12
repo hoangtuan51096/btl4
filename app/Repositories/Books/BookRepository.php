@@ -14,13 +14,21 @@ class BookRepository implements BookRepositoryInterface
 
     public function getList()
     {
-        $listBooks = Book::with('author')->paginate(5);
+        $listBooks = Book::with('author', 'bookUser')->paginate(5);
+        return $listBooks;
+    }
+
+    public function getListBookNone()
+    {
+        $listBooks = Book::where('status', 0)
+                        ->where('delay', '0')
+                        ->with('author', 'bookUser')->paginate(5);
         return $listBooks;
     }
 
     public function find($id)
     {
-        $book = Book::where('id', $id)->with('author')->first();
+        $book = Book::where('id', $id)->with('author', 'bookUser')->first();
         return $book;
     }
 
@@ -35,6 +43,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function create($attribute)
     {
+        $attribute['status'] = '0';
         $addBook = Book::create($attribute);
         return $addBook;
     }
@@ -66,5 +75,14 @@ class BookRepository implements BookRepositoryInterface
     {
         $deleteBook = Book::forceDelete($id);
         return $deleteBook;
+    }
+
+    public function delayBook($bookID, $userID)
+    {
+        $delayBook = Book::find($bookID);
+        $delayBook->user_delay = $userID;
+        $delayBook->delay = 1;
+        $delayBook->save();
+        return $delayBook;
     }
 }

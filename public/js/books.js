@@ -4,7 +4,6 @@ $(document).ready(function(){
             name : $('#name').val(),
             author_id : $('#author_id').val(),
         }
-        console.log(data.author_id);
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -14,9 +13,30 @@ $(document).ready(function(){
             dataType: 'html',
             data: data,
             success: function(result){
-                $('#result').html(result);
-                $('#myModal').modal('hide');
-                $('.modal-backdrop').remove()
+               if (result.errors !== null) {
+                    let errorsHtml = '<div class="alert alert-danger">';
+                    errorsHtml += result.errors.map(function(error) {
+                        return `<li>${error}</li>`;
+                    }).join('') + '</div>';
+
+                    $('.errors').html(errorsHtml);
+
+                    return;
+                } else {
+                    $('#result').html(result);
+                    $('#myModal').modal('hide');
+                    $('.modal-backdrop').remove()
+                } console.log(result);
+            },
+            error: function(request, status, error){
+                json = $.parseJSON(request.responseText);
+                console.log(request);
+                $.each(json.errors, function(key, value){
+                    $('.alert-danger').show();
+                    $('.alert-danger').append('<p>'+value+'</p>');
+                });
+                $("#result").html('');
+            }
             }
         });
     });

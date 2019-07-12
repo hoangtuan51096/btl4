@@ -19,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function find($id)
     {
-        $detailUser = User::where('id', $id)->first();
+        $detailUser = User::where('id', $id)->with('books')->first();
         return $detailUser;
     }
 
@@ -63,6 +63,12 @@ class UserRepository implements UserRepositoryInterface
     public function hardDelete($id)
     {
         $deleteUser = User::forceDelete($id);
-        return $deleteUserk;
+        return $deleteUser;
+    }
+
+    public function getBookRenting()
+    {
+        $bookRenting = User::where('id', $id)->with('books')->get();
+        return;
     }
 }

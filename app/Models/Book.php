@@ -12,7 +12,7 @@ class Book extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'author_id', 'name'
+        'author_id', 'name', 'status', 'user_delay', 'delay'
     ];
     
     public function author()
@@ -20,8 +20,12 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
-    public function userBook()
+    public function users()
     {
-        return $this->hasMany(UserBook::class);
+        return $this->belongsToMany('App\User', 'book_user', 'book_id', 'user_id')->withPivot('status', 'end_at');
+    }
+    public function bookUser()
+    {
+        return $this->hasMany(BookUser::class);
     }
 }

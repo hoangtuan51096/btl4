@@ -14,7 +14,8 @@ class BooksTableSeeder extends Seeder
         DB::table('books')->truncate();
         App\Models\Book::create([
             'name' => 'Truyen Kieu',
-            'author_id' => '1'
+            'author_id' => '1',
+            'status' => '0'
         ]);
     }
 }

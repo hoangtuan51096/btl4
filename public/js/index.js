@@ -3,6 +3,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+$('#result').hide();
 function ajaxLoad(method, url, button) {
     var id = button.data('id');
     var rowid = button.data('rowid');

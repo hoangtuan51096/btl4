@@ -18,12 +18,12 @@
                     <form action="{{ route('restoreBook') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $book->id }}">
-                        <button type="submit">RESTORE</button>
+                        <button type="submit">Tao lai</button>
                     </form>
                     <form action="{{ route('deleteBook') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $book->id }}">
-                        <input onclick="return confirm('Ban co chac muon xoa quyen sach nay hay khong?');" type="submit" class="" value="DELETE" name="delete"/>
+                        <input onclick="return confirm('Ban co chac muon xoa quyen sach nay hay khong?');" type="submit" class="" value="Xoa" name="delete"/>
                     </form>
                 </div>
             </td>

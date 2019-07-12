@@ -15,7 +15,9 @@
                                 <h4 class="modal-title">Tao moi sach</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
+
                             <div class="modal-body">
+                                <div class="errors"></div>
                                 Name:<input id="name" type="text" class="form-control" name="name">
                                 Tac gia:<select id="author_id" class="form-control">
                                     @foreach($authors as $author)
@@ -67,11 +69,11 @@
                     <td></td>
                     <td>
                         <div class="row">
-                            <button name="edit" data-id="{{ $book->id }}" data-rowid="{{ $key+1 }}" class="edit-book"> Edit</button> 
+                            <button name="edit" data-id="{{ $book->id }}" data-rowid="{{ $key+1 }}" class="edit-book">Sua</button> 
                             <form action="{{ route('book.destroy', $book->id) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                                <input onclick="return confirm('Ban co chac muon xoa quyen sach nay hay khong?');" type="submit" class="" value="DELETE" name="delete"/>
+                                <input onclick="return confirm('Ban co chac muon xoa quyen sach nay hay khong?');" type="submit" class="" value="Xoa" name="delete"/>
                             </form>
                         </div>
                     </td>

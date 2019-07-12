@@ -60,6 +60,14 @@ class BookController extends Controller
 
     public function addBook(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'name' => ['required', 'string'],
+            'author_id' => ['required', 'string', 'email', 'max:255', 'exists:authors,id']
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
         $addBook = $this->book->create($request->all());
         return view('admin.books.create-book', compact('addBook'))->render();
     }

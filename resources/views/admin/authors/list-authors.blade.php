@@ -17,6 +17,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
+                            <div class="errors"></div>
                             <form>
                                 @csrf
                                 Name:<input id="name"type="text" class="form-control" name="name">
