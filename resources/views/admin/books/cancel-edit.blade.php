@@ -1,13 +1,13 @@
 <th scope="row">{{ $rowid }}</th>
 <form >
-    <td>{{ $updateBook->name }}</td>
-    <td>{{ $updateBook->author->name }}</td>
-    @if($updateBook->delay == DANGXEM)
+    <td class="name">{{ $book->name }}</td>
+    <td class="authorID">{{ $book->author->name }}</td>
+    @if($book->delay == DANGXEM)
         <td>Dang xem</td>
-        <td>{{ $updateBook->load('userDelay')->userDelay->account }}</td>
-    @elseif($updateBook->status == DANGMUON)
+        <td>{{ $book->load('userDelay')->userDelay->account }}</td>
+    @elseif($book->status == DANGMUON)
         <td>Dang muon</td>
-        @foreach($updateBook->load('users')->users as $user)
+        @foreach($book->load('users')->users as $user)
             @if($user->pivot->status == DANGMUON)
                 <td>{{ $user->account }}</td>
             @endif
@@ -18,8 +18,8 @@
     @endif
     <td>
         <div class="row">
-            <button name="edit" data-id="{{ $updateBook->id }}" data-rowid="{{ $rowid }}" class="edit-book">Sua</button> 
-            <form action="{{ route('book.destroy', $updateBook->id) }}" method="POST">
+            <button name="edit" data-id="{{ $book->id }}" data-rowid="{{ $rowid }}" class="edit-book">Sua</button> 
+            <form action="{{ route('book.destroy', $book->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <input onclick="return confirm('Ban co chac muon xoa quyen sach nay hay khong?');" type="submit" class="" value="Xoa" name="delete"/>

@@ -8,12 +8,24 @@
             @endforeach
         </select>
     </td>
-    <td></td>
-    <td></td>
+    @if($book->delay == DANGXEM)
+        <td>Dang xem</td>
+        <td>{{ $book->load('userDelay')->userDelay->account }}</td>
+    @elseif($book->status == DANGMUON)
+        <td>Dang muon</td>
+        @foreach($book->load('users')->users as $user)
+            @if($user->pivot->status == DANGMUON)
+                <td>{{ $user->account }}</td>
+            @endif
+        @endforeach
+    @else
+        <td>Chua muon</td>
+        <td></td>
+    @endif
     <td>
         <div>
             <button class="save-book" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Luu</button>
-            <button class="cancel-book" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Huy</button>
+            <button class="cancel-edit" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Huy</button>
         </div>
     </td>
 </form>

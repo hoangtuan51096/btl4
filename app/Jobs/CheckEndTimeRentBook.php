@@ -7,29 +7,26 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Mail\CheckEndTime;
 use App\Models\BookUser;
+use Illuminate\Support\Facades\Mail;
 
 class CheckEndTimeRentBook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        $check;
+        $bookUsers = BookUser::where('status', DANGMUON)->with('users', 'books')->get();
+        foreach ($bookUsers as $bookUser) {
+            if ($bookUser->end_at < now()) {
+                Mail::to($bookUser->users->email)->send(new CheckEndTime($bookUser));
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@
         <a href="{{ route('trashIndex') }}" class="list-group-item list-group-item-action" id="list-messages-list">Thung rac</a>
     @endif
     @if(Auth::user()->role == 'user')
-        <a href="{{ route('book-client.index') }}" class="list-group-item list-group-item-action" id="list-home-list">Muon Sach</a>
-        <a href="{{ route('viewGiveBackBook') }}"class="list-group-item list-group-item-action" id="list-profile-list">Tra sach</a>
+        <a class="list-group-item list-group-item-action list-book-client" href="{{ route('book-client.index') }}">Muon Sach</a>
+        <a class="list-group-item list-group-item-action list-book-client" href="{{ route('viewGiveBackBook') }}">Tra sach</a>
     @endif
 </div>

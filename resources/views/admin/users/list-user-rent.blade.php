@@ -24,7 +24,6 @@
     </div>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tạo mới tài khoản</button>
             <div class="modal" id="myModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -57,11 +56,11 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs float-right">
-                    <li class="nav-item active">
-                        <a class="nav-link active" id="active" href="{{ route('user.index') }}">Tất cả</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('userRenting') }}">Đang mượn sách</a>
+                        <a class="nav-link" href="{{ route('user.index') }}">Tất cả</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link active" id="active" href="{{ route('userRenting') }}">Đang mượn sách</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('userEndDate') }}">Chưa trả sách quá hạn</a>
@@ -76,32 +75,33 @@
                     <th scope="col">Tên tài khoản</th>
                     <th scope="col">Email</th>
                     <th scope="col">Tên người dùng</th>
-                    <th scope="col">Hành động</th>
+                    <th scope="col">Tên sách</th>
+                    <th scope="col">Hạn trả</th>
+                    <th scope="col">Tình trạng</th>
                 </tr>
             </thead>
             <tbody>
                 <tr id="newRow"></tr>
-                @foreach($allUsers as $key => $user)
+                @foreach($userRents as $key => $user)
                 <tr>
                     <th scope="row">{{  $key+1 }}</th>
-                    <td>{{ $user->account }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->users->account }}</td>
+                    <td>{{ $user->users->email }}</td>
+                    <td>{{ $user->users->name }}</td>
+                    <td>{{ $user->books->name }}</td>
+                    <td>{{ $user->end_at }}</td>
                     <td>
-                        <div class="row">
-                            <button name="edit" data-id="{{ $user->id }}" data-rowid="{{ $key+1 }}" class="edit">Sửa</button> 
-                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="Xóa" name="delete"/>
-                            </form>
-                        </div>
+                        @if($user->end_at < now())
+                            <span class="danger">Qua han</span>
+                        @else
+
+                        @endif
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        {{ $allUsers->links() }}
+        {{ $userRents->links() }}
     </div>
 @endsection
 

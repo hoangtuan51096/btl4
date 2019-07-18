@@ -13,34 +13,22 @@ $(document).ready(function(){
             },
             url: 'create-user',
             type: 'POST',
-            dataType: 'json',
             data: data,
-            success: function(result){
-                if (result.errors !== null) {
-                    let errorsHtml = '<div class="alert alert-danger">';
-                    errorsHtml += result.errors.map(function(error) {
-                        return `<li>${error}</li>`;
-                    }).join('') + '</div>';
-
-                    $('.errors').html(errorsHtml);
-
-                    return;
-                } else {
-                    $('#result').html(result);
-                    $('#myModal').modal('hide');
-                    $('.modal-backdrop').remove()
-                }
-                console.log(result);
-            },
-            error: function(request, status, error){
-                json = $.parseJSON(request.responseText);
-                console.log(request);
-                $.each(json.errors, function(key, value){
-                    $('.alert-danger').show();
-                    $('.alert-danger').append('<p>'+value+'</p>');
+            error: function(data){
+                var errors = data.responseJSON.errors;
+                errorsHtml = '<div class="alert alert-danger"><ul>';
+                $.each( errors, function( key, value ) {
+                    errorsHtml += '<li>' +value[0]+ '</li>';
                 });
-                $("#result").html('');
-            }
+                errorsHtml += '</ul></di>';
+                $( '.errors' ).html( errorsHtml );
+            },
+            success: function(result){
+                $("#result").notify("Them moi thanh cong", "success");
+                $('#newRow').html(result);
+                $('#myModal').modal('hide');
+                $('.modal-backdrop').remove();
+            },
         });
     });
     $(document).on('click', 'button.edit', function(event){
@@ -61,10 +49,9 @@ $(document).ready(function(){
             type: 'POST',
             data: {id: id, name: name, rowid: rowid},
             success: function(result){
-                //console.log(result)
+                $("#result").notify("Sua thanh cong", "success", { position:"right" });
                 tr.empty();
                 tr.html(result);
-                //$('#result').append('dwqdwq');
             }
         });
     }); 

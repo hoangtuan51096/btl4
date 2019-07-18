@@ -20,3 +20,27 @@ function ajaxLoad(method, url, button) {
         },
     });
 }
+function ajaxLoadBook(method, button) {
+    var url = button.data('url');
+     $.ajax({
+        type: method,
+        url: url,
+        dataType: 'html',
+        success: function(result) {
+            $('.content-list-book').html(result);
+        },
+    });
+}
+// $(document).ready(function(){
+//     $(document).on('click', '.list-book-client', function(event){
+//         var url = $(this).data('url');
+//         $.ajax({
+//             type: GET,
+//             url: url,
+//             dataType: 'html',
+//             success: function(result) {
+//                 $('div#content-book').html($result);
+//             }
+//         });
+//     });
+// });

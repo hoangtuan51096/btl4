@@ -33,7 +33,8 @@ class ResetDelayBook implements ShouldQueue
     public function handle()
     {
         $detailBook = Book::find($this->book);
-        $detailBook->delay = 0;
+        $detailBook->delay = CHUAXEM;
+        $detailBook->user_delay = null;
         $detailBook->save();
     }
 }

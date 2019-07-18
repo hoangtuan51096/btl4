@@ -1,0 +1,13 @@
+div.notifications{
+	float:right;
+	color: red;
+}
+span.newRow{
+	color: green;
+}
+a#active{
+	color: #3490dc;
+}
+span.danger{
+	color: red;
+}

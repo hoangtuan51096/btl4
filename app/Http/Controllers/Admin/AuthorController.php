@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Authors\AuthorRepositoryInterface;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -20,46 +21,19 @@ class AuthorController extends Controller
         return view('admin.authors.list-authors', compact('listAuthors'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
     public function destroy($id)
     {
         $deleteAuthor = $this->author->delete($id);
+        if ($deleteAuthor) {
+            session()->flash('status', 'Xoa tac gia thanh cong');
+        } else {
+            session()->flash('errors', 'Khong the tac gia quyen sach');
+        }
         return redirect()->route('author.index');
     }
     
-    public function addAuthor(Request $request)
+    public function addAuthor(AuthorRequest $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'name' => ['required', 'string']
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
         $addAuthor = $this->author->create($request->all());
         return view('admin.authors.create-author', compact('addAuthor'))->render();
     }
@@ -87,12 +61,22 @@ class AuthorController extends Controller
     public function restoreTrash(Request $request)
     {
         $restoreAuthor = $this->author->restoreTrash($request->id);
-        return redirect()->route('author.index');
+        if ($restoreAuthor) {
+            session()->flash('status', 'Phuc hoi thanh cong');
+        } else {
+            session()->flash('errors', 'Phuc hoi khong thanh cong');
+        }
+        return redirect()->route('allTrashAuthor');
     }
 
     public function deleteTrash(Request $request)
     {
         $deleteAuthor = $this->author->hardDelete($request->id);
-        return redirect()->route('author.index');
+        if ($deleteAuthor) {
+            session()->flash('status', 'Xoa tac gia thanh cong');
+        } else {
+            session()->flash('errors', 'Khong the tac gia quyen sach');
+        }
+        return redirect()->route('allTrashAuthor');
     }
 }

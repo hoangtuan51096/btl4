@@ -8,18 +8,6 @@
     </div>
     <div class="col-md-3">
         <div class="float-left" id="result">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {{ session('errors') }}
-                </div>
-            @endif
         </div>
     </div>
     <div class="container">
@@ -27,7 +15,6 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 Tạo mới sach
             </button>
-
             <div>
                 <div class="modal fade" id="myModal">
                     <div class="modal-dialog">
@@ -54,23 +41,23 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs">
-                    <li class="nav-item active">
-                        <a class="nav-link active" id="active" href="{{ route('book.index') }}">Tat ca</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('book.index') }}">Tat ca</a>
                     </li>
-                    <li  class="nav-item">
+                    <li  class="nav-item ">
                         <a class="nav-link" href="{{ route('bookViewing') }}">Đang xem</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bookRenting') }}">Đang mượn</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('bookNone') }}">Chua muon</a>
+                    <li class="nav-item active">
+                        <a class="nav-link active" id="active" href="{{ route('bookNone') }}">Chua muon</a>
                     </li>
                 </ul>
             </div>
         </nav>
         <div class="tab-content">
-            <div id="all-book" class="">
+            <div id="none" class="">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -84,25 +71,13 @@
                     </thead>
                     <tbody>
                         <tr id="newRow"></tr>
-                        @foreach($listBooks as $key => $book)
+                        @foreach($listBookNone as $key => $book)
                         <tr>
                             <th scope="row">{{  $key+1 }}</th>
                             <td>{{ $book->name }}</td>
                             <td>{{ $book->author->name }}</td>
-                            @if($book->delay == DANGXEM)
-                                <td>Dang xem</td>
-                                <td>{{ $book->load('userDelay')->userDelay->account }}</td>
-                            @elseif($book->status == DANGMUON)
-                                <td>Dang muon</td>
-                                @foreach($book->users as $user)
-                                    @if($user->pivot->status == DANGMUON)
-                                        <td>{{ $user->account }}</td>
-                                    @endif
-                                @endforeach
-                            @else
-                                <td>Chua muon</td>
-                                <td></td>
-                            @endif
+                            <td>Chua muon</td>
+                            <td></td>
                             <td>
                                 <div class="row">
                                     <button name="edit" data-id="{{ $book->id }}" data-rowid="{{ $key+1 }}" class="edit-book">Sua</button> 
@@ -119,8 +94,9 @@
                         </div>
                     </tbody>
                 </table>
-                {{ $listBooks->links() }}
+                {{ $listBookNone->links() }}
             </div>
+
         </div>
     </div>
 @endsection

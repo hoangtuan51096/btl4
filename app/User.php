@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     public function books(){
-        return $this->belongsToMany('App\Models\Book');
+        return $this->belongsToMany('App\Models\Book', 'book_user', 'book_id', 'user_id');
     }
 
     public function bookUser()

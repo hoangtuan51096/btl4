@@ -3,7 +3,9 @@
 namespace App\Repositories\Books;
 
 use App\Models\Book;
+use App\Models\Author;
 use App\Repositories\Books\BookRepositoryInterface;
+use Auth;
 
 class BookRepository implements BookRepositoryInterface
 {
@@ -14,14 +16,33 @@ class BookRepository implements BookRepositoryInterface
 
     public function getList()
     {
-        $listBooks = Book::with('author', 'bookUser')->paginate(5);
+        $listBooks = Book::with('author', 'bookUser', 'users')->paginate(5);
+        return $listBooks;
+    }
+
+    public function getListView()
+    {
+        $listBooks = Book::where('delay', DANGXEM)->with('author', 'bookUser', 'users')->paginate(5);
+        return $listBooks;
+    }
+
+    public function getListRent()
+    {
+        $listBooks = Book::where('status', DANGMUON)->with('author', 'bookUser', 'users')->paginate(5);
+        return $listBooks;
+    }
+
+    public function getListNone()
+    {
+        $listBooks = Book::where('status', CHUAMUON)->where('delay', CHUAXEM)->with('author', 'bookUser', 'users')->paginate(5);
         return $listBooks;
     }
 
     public function getListBookNone()
     {
-        $listBooks = Book::where('status', 0)
-                        ->where('delay', '0')
+        $listBooks = Book::where('status', CHUAMUON)
+                        ->where('delay', '!=', DANGXEM)
+                        ->orWhere('user_delay', Auth::id())
                         ->with('author', 'bookUser')->paginate(5);
         return $listBooks;
     }
@@ -51,6 +72,12 @@ class BookRepository implements BookRepositoryInterface
     public function delete($id)
     {
     	$book = $this->find($id);
+        if ($book->status == DANGMUON) {
+            return false;
+        }
+        if ($book->delay == DANGXEM) {
+            return false;
+        }
         if ($book) {
             $book->delete();
             return true;
@@ -60,29 +87,52 @@ class BookRepository implements BookRepositoryInterface
 
     public function getTrash()
     {
-        $trashBook = Book::onlyTrashed()->get();
+        $trashBook = Book::onlyTrashed()->with('author')->get();
         return $trashBook;
     }
 
     public function restoreTrash($id)
     {
         $restoreBook = Book::withTrashed()->find($id);
-        $restoreBook->restore();
-        return $restoreBook;
+        $authors = Author::all();
+        foreach ($authors as $author) {
+            if ($restoreBook->author_id == $author->id) {
+                $restoreBook->restore();
+                return true;
+            }
+        }
+        return false;
     }
 
     public function hardDelete($id)
     {
-        $deleteBook = Book::forceDelete($id);
+        $deleteBook = Book::withTrashed()->find($id);
+        $deleteBook->forceDelete();
         return $deleteBook;
     }
 
     public function delayBook($bookID, $userID)
     {
         $delayBook = Book::find($bookID);
+        $bookDelays = Book::where('user_delay', $userID)->get();
+        foreach ($bookDelays as $book) {
+            $book->user_delay = null;
+            $book->delay = CHUAXEM;
+            $book->save();
+        }
         $delayBook->user_delay = $userID;
-        $delayBook->delay = 1;
+        $delayBook->delay = DANGXEM;
         $delayBook->save();
         return $delayBook;
+    }
+    public function detailBook($bookId, $userId)
+    {
+        $detailBook = Book::where('id', $bookId)->with('author', 'bookUser')->first();
+        if ($detailBook->delay == DANGXEM) {
+            if ($detailBook->user_delay != Auth::id()) {
+                return null;
+            }
+        }
+        return $detailBook;
     }
 }

@@ -10,40 +10,32 @@ $(document).ready(function(){
             },
             url: 'create-book',
             type: 'POST',
-            dataType: 'html',
             data: data,
-            success: function(result){
-               if (result.errors !== null) {
-                    let errorsHtml = '<div class="alert alert-danger">';
-                    errorsHtml += result.errors.map(function(error) {
-                        return `<li>${error}</li>`;
-                    }).join('') + '</div>';
-
-                    $('.errors').html(errorsHtml);
-
-                    return;
-                } else {
-                    $('#result').html(result);
-                    $('#myModal').modal('hide');
-                    $('.modal-backdrop').remove()
-                } console.log(result);
-            },
-            error: function(request, status, error){
-                json = $.parseJSON(request.responseText);
-                console.log(request);
-                $.each(json.errors, function(key, value){
-                    $('.alert-danger').show();
-                    $('.alert-danger').append('<p>'+value+'</p>');
+            error: function(data){
+                var errors = data.responseJSON.errors;
+                errorsHtml = '<div class="alert alert-danger"><ul>';
+                $.each( errors, function( key, value ) {
+                    errorsHtml += '<li>' +value[0]+ '</li>';
                 });
-                $("#result").html('');
-            }
-            }
+                errorsHtml += '</ul></di>';
+                $( '.errors' ).html( errorsHtml );
+            },
+            success: function(result){
+                $.notify("Them moi thanh cong", "success");
+                $('#newRow').html(result);
+                $('#myModal').modal('hide');
+                $('.modal-backdrop').remove();
+            },
         });
     });
-    $('button.edit-book').click(function(event){
+    $(document).on('click', 'button.edit-book', function(event){
         event.preventDefault();
         ajaxLoad('GET', 'edit-book', $(this));
-    })
+    });
+    $(document).on('click', 'button.cancel-edit', function(event){
+        event.preventDefault();
+        ajaxLoad('GET', 'cancel-edit', $(this));
+    });
     $(document).on('click', 'button.save-book', function(event){
         event.preventDefault();
         var id = $(this).data('id');
@@ -59,9 +51,10 @@ $(document).ready(function(){
             type: 'POST',
             data: {id: id, name: name, author_id:author_id, rowid: rowid},
             success: function(result){
+                $("#result").notify("Sua thanh cong", "success");
                 tr.empty();
                 tr.html(result);
             }
         });
-    }); 
+    });
 });

@@ -15,7 +15,7 @@ class AddNewColumnUserDelayAndDelayToBooksTable extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->integer('user_delay')->nullable();
-            $table->integer('delay')->nullable();
+            $table->integer('delay')->nullable()->default(0);
         });
     }
 

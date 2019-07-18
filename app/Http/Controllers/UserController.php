@@ -9,6 +9,7 @@ use App\Repositories\BookUser\BookUserRepositoryInterface;
 use App\Repositories\Books\BookRepositoryInterface;
 use App\Rules\CheckEndTime;
 use Auth;
+use App\Http\Requests\RentBookRequest;
 
 class UserController extends Controller
 {
@@ -97,16 +98,8 @@ class UserController extends Controller
         //
     }
 
-    public function rentBook(Request $request)
+    public function rentBook(RentBookRequest $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:books,id'],
-            'end_at' => ['required', 'date', new CheckEndTime]
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
         $checkUserRenting = $this->bookUser->checkUserRentBook(Auth::id());
         if ($checkUserRenting) {
             session()->flash('error', 'Ban khong the muon them sach');

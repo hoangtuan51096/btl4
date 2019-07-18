@@ -89,7 +89,9 @@ class BookUserRepository implements BookUserRepositoryInterface
         $bookUser->status = 1;
         $bookUser->end_at = $data['end_at'];
         $bookUser->save();
-        $book = Book::where('id', $data['id'])->update(['status'=> 1]);
+        $book = Book::find($data['id']);
+        $book->status = 1;
+        $book->save();
         return $bookUser;
         }
     }

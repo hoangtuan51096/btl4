@@ -28,4 +28,9 @@ class Book extends Model
     {
         return $this->hasMany(BookUser::class);
     }
+
+    public function userDelay()
+    {
+        return $this->belongsTo('App\User', 'user_delay');
+    }
 }

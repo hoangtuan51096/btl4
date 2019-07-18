@@ -1,4 +1,5 @@
-<div class="alert alert-success">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    Tai Khoan <strong>{{ $addUser->account }}</strong> duoc tao thanh cong.
-</div>
+<th scope="row"><span class="newRow">New</span></th>
+<td>{{ $addUser->account }}</td>
+<td>{{ $addUser->email }}</td>
+<td>{{ $addUser->name }}</td>
+<td></td>

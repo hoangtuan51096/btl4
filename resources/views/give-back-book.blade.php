@@ -5,7 +5,7 @@
     <div class="header">TRA SACH</div>
     <br/>
     <div class="title">
-        <a href="">Sach</a>&emsp;>&emsp;
+        <a href="{{ route('book-client.index') }}">Sach</a>&emsp;>&emsp;
         <span>Tra sach</span>
     </div>
      @if (session('status'))

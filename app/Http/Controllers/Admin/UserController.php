@@ -22,52 +22,20 @@ class UserController extends Controller
         $allUsers = $this->user->getList();
         return view('admin.users.list-users', compact('allUsers'));
     }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(UserRequest $request)
-    {
-        $addUser = $this->user->create($request->all());
-        return view('admin.users.create', compact('addUser'));
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
+    
     public function destroy($id)
     {
         $deleteUser = $this->user->delete($id);
+        if ($deleteUser) {
+            session()->flash('status', 'Xoa tai khoan thanh cong');
+        } else {
+            session()->flash('errors', 'Xoa khong thanh cong');
+        }
         return redirect()->route('user.index');
     }
 
-    public function addUser(Request $request)
+    public function addUser(UserRequest $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'account' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'role' => [Rule::in(['user', 'admin']), 'required']
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
         $addUser = $this->user->create($request->all());
         return view('admin.users.create-user', compact('addUser'))->render();
     }
@@ -94,12 +62,34 @@ class UserController extends Controller
     public function restoreTrash(Request $request)
     {
         $restoreUser = $this->user->restoreTrash($request->id);
-        return redirect()->route('user.index');
+        if ($restoreUser) {
+            session()->flash('status', 'Phuc hoi tai khoan thanh cong');
+        } else {
+            session()->flash('errors', 'Phuc hoi khong thanh cong');
+        }
+        return redirect()->route('allTrashUser');
     }
 
     public function deleteTrash(Request $request)
     {
         $deleteUser = $this->user->hardDelete($request->id);
-        return redirect()->route('user.index');
+        if ($deleteUser) {
+            session()->flash('status', 'Xoa tai khoan thanh cong');
+        } else {
+            session()->flash('errors', 'Xoa khong thanh cong');
+        }
+        return redirect()->route('allTrashUser');
+    }
+
+    public function getUserRent()
+    {
+        $userRents = $this->user->getUserRent();
+        return view('admin.users.list-user-rent', compact('userRents'));
+    }
+
+    public function getUserEndDate()
+    {
+        $userEndDates = $this->user->getUserEndDate();
+        return view('admin.users.list-user-end-date', compact('userEndDates'));
     }
 }

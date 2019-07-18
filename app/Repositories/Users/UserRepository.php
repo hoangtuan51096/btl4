@@ -3,6 +3,8 @@
 namespace App\Repositories\Users;
 
 use App\User;
+use App\Models\BookUser;
+use App\Models\Book;
 use App\Repositories\Users\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -33,13 +35,26 @@ class UserRepository implements UserRepositoryInterface
 
     public function create($attribute)
     {
+        $attribute['password'] = bcrypt($attribute['password']);
         $addUser = User::create($attribute);
         return $addUser;
     }
 
     public function delete($id)
     {
-        $user = $this->find($id);
+
+        $bookRent = BookUser::where('user_id', $id)->get();
+        foreach ($bookRent as $user) {
+            if ($user->status == DANGMUON) {
+                return false;
+            }
+        }
+        $book = Book::where('user_delay', $id)->first();
+        if ($book != null) {
+            $book->user_delay = null;
+            $book->save();
+        }
+        $user = User::find($id);
         if ($user) {
             $user->delete();
             return true;
@@ -57,18 +72,35 @@ class UserRepository implements UserRepositoryInterface
     {
         $restoreUser = User::withTrashed()->find($id);
         $restoreUser->restore();
-        return $restoreUser;
+        if ($restoreUser) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function hardDelete($id)
     {
-        $deleteUser = User::forceDelete($id);
-        return $deleteUser;
+        $deleteUser = User::withTrashed()->find($id);
+        $deleteUser->forceDelete();
+        if ($deleteUser) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function getBookRenting()
+    public function getUserRent()
     {
-        $bookRenting = User::where('id', $id)->with('books')->get();
-        return;
+        $userRents = BookUser::where('status', DANGMUON)->with('books', 'users')->paginate(5);
+        return $userRents;
+    }
+
+    public function getUserEndDate()
+    {
+        $userEndDates = BookUser::where('status', DANGMUON)
+                            ->where('end_at', '<', now())
+                            ->with('books', 'users')->paginate(5);
+        return $userEndDates;
     }
 }

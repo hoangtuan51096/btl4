@@ -1,8 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="col-md-9">
+        <div class="header"> 
+            <div>QUAN LY TAC GIA</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="float-left" id="result">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ session('status') }}
+                </div>
+            @endif
+            @if (session('errors'))
+                <div class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ session('errors') }}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="container">
-        <div class="header"> QUAN LY TAC GIA</div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                 Tạo mới tac gia
@@ -40,11 +60,12 @@
                 </tr>
             </thead>
             <tbody>
+                <tr id="newRow"></tr>
                 @foreach($listAuthors as $key => $author)
                 <tr>
                     <th scope="row">{{  $key+1 }}</th>
                     <td>{{ $author->name }}</td>
-                    <td>{{ count($author->book) }}</td>
+                    <td>{{ count($author->books) }}</td>
                     <td>
                         <div class="row">
                             <button name="edit" data-id="{{ $author->id }}" data-rowid="{{ $key+1 }}" class="edit-author"> Edit</button> 

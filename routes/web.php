@@ -20,11 +20,17 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('admin')->group(function () {
     Route::middleware('auth')->group(function() {
-        Route::resource('user', 'Admin\UserController');
+        Route::resource('user', 'Admin\UserController')->only([
+            'index', 'destroy'
+        ]);
 
-        Route::resource('book', 'Admin\BookController');
+        Route::resource('book', 'Admin\BookController')->only([
+            'index', 'destroy'
+        ]);
 
-        Route::resource('author', 'Admin\AuthorController');
+        Route::resource('author', 'Admin\AuthorController')->only([
+            'index', 'destroy'
+        ]);
 
         Route::post('create-user', 'Admin\UserController@addUser');
 
@@ -38,6 +44,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('edit-book', 'Admin\BookController@editBookAjax');
 
+        Route::get('cancel-edit', 'Admin\BookController@cancelEditAjax');
+
         Route::post('update-book', 'Admin\BookController@updateBookAjax');
 
         Route::get('edit-user', 'Admin\UserController@editUserAjax');
@@ -46,11 +54,11 @@ Route::prefix('admin')->group(function () {
 
         Route::get('trash','Admin\TrashController@index')->name('trashIndex');
 
-        Route::get('trash-user','Admin\UserController@getAllTrash');
+        Route::get('trash-user','Admin\UserController@getAllTrash')->name('allTrashUser');
 
-        Route::get('trash-author','Admin\AuthorController@getAllTrash');
+        Route::get('trash-author','Admin\AuthorController@getAllTrash')->name('allTrashAuthor');
 
-        Route::get('trash-book','Admin\BookController@getAllTrash');
+        Route::get('trash-book','Admin\BookController@getAllTrash')->name('allTrashBook');
 
         Route::post('restore-user','Admin\UserController@restoreTrash')->name('restoreUser');
 
@@ -63,6 +71,16 @@ Route::prefix('admin')->group(function () {
         Route::post('delete-author','Admin\AuthorController@deleteTrash')->name('deleteAuthor');
 
         Route::post('delete-book','Admin\BookController@deleteTrash')->name('deleteBook');
+
+        Route::get('list-book-viewing','Admin\BookController@getBookView')->name('bookViewing');
+
+        Route::get('list-book-renting','Admin\BookController@getBookRent')->name('bookRenting');
+
+        Route::get('list-book-none','Admin\BookController@getBookNone')->name('bookNone');
+
+        Route::get('list-user-rent','Admin\UserController@getUserRent')->name('userRenting');
+
+        Route::get('list-user-end-date','Admin\UserController@getUserEndDate')->name('userEndDate');
     });
 });
 
@@ -78,7 +96,7 @@ Route::middleware('auth')->group(function() {
 
     Route::get('detail-book','BookController@viewDetailBook');
 
-    Route::post('rent-book','UserController@rentBook')->name('rentBook');
+    Route::get('rent-book','UserController@rentBook')->name('rentBook');
 
     Route::get('give-back-book','UserController@viewGiveBackBook')->name('viewGiveBackBook');
 

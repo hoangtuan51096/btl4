@@ -17,10 +17,10 @@ class CreateBookUserTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedbigInteger('user_id');
             $table->foreign('user_id')
-                  ->references('id')->on('users');
+                  ->references('id')->on('users')->onDelete('cascade');
             $table->unsignedbigInteger('book_id');
             $table->foreign('book_id')
-                  ->references('id')->on('books');
+                  ->references('id')->on('books')->onDelete('cascade');
             $table->integer('status')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->timestamps();

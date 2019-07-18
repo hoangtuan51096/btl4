@@ -9,27 +9,25 @@ $(document).ready(function(){
             },
             url: 'create-author',
             type: 'POST',
-            dataType: 'html',
             data: data,
+            error: function(data){
+                var errors = data.responseJSON.errors;
+                errorsHtml = '<div class="alert alert-danger"><ul>';
+                $.each( errors, function( key, value ) {
+                    errorsHtml += '<li>' +value[0]+ '</li>';
+                });
+                errorsHtml += '</ul></di>';
+                $( '.errors' ).html( errorsHtml );
+            },
             success: function(result){
-                if (result.errors !== null) {
-                    let errorsHtml = '<div class="alert alert-danger">';
-                    errorsHtml += result.errors.map(function(error) {
-                        return `<li>${error}</li>`;
-                    }).join('') + '</div>';
-
-                    $('.errors').html(errorsHtml);
-
-                    return;
-                } else {
-                    $('#result').html(result);
-                    $('#myModal').modal('hide');
-                    $('.modal-backdrop').remove()
-                }
-            }
+                $("#result").notify("Them moi thanh cong", "success");
+                $('#newRow').html(result);
+                $('#myModal').modal('hide');
+                $('.modal-backdrop').remove();
+            },
         });
     });
-    $('button.edit-author').click(function(event) {
+    $(document).on('click', 'button.edit-author', function(event) {
         event.preventDefault();
         ajaxLoad('GET', 'edit-author', $(this));
     });
@@ -48,6 +46,7 @@ $(document).ready(function(){
             type: 'POST',
             data: {id: id, name: name, rowid: rowid},
             success: function(result){
+                $("#result").notify("Sua thanh cong", "success");
                 tr.empty();
                 tr.html(result);
             }
