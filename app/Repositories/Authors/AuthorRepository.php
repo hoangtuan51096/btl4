@@ -42,13 +42,12 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function delete($id)
     {
-    	$author = Author::where('id', $id)->with('books')->first();
+        $author = Author::where('id', $id)->with('books')->first();
         if ($author->books->isEmpty()) {
             $author->delete();
             return true;
-
         } else {
-            foreach($author->books as $book) {
+            foreach ($author->books as $book) {
                 if ($book->status == DANGMUON) {
                     return false;
                 }

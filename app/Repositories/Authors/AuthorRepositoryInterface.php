@@ -11,5 +11,4 @@ interface AuthorRepositoryInterface extends AbstractRepositoryInterface
     public function restoreTrash($id);
 
     public function hardDelete($id);
-
 }

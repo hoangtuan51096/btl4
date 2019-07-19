@@ -11,7 +11,7 @@ class BookRepository implements BookRepositoryInterface
 {
     public function all()
     {
-
+        //
     }
 
     public function getList()
@@ -34,7 +34,10 @@ class BookRepository implements BookRepositoryInterface
 
     public function getListNone()
     {
-        $listBooks = Book::where('status', CHUAMUON)->where('delay', CHUAXEM)->with('author', 'bookUser', 'users')->paginate(5);
+        $listBooks = Book::where('status', CHUAMUON)
+            ->where('delay', CHUAXEM)
+            ->with('author', 'bookUser', 'users')
+            ->paginate(5);
         return $listBooks;
     }
 
@@ -71,7 +74,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function delete($id)
     {
-    	$book = $this->find($id);
+        $book = $this->find($id);
         if ($book->status == DANGMUON) {
             return false;
         }

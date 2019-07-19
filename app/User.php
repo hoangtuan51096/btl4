@@ -41,7 +41,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function books(){
+    public function books()
+    {
         return $this->belongsToMany('App\Models\Book', 'book_user', 'book_id', 'user_id');
     }
 

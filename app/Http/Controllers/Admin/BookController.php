@@ -17,9 +17,7 @@ class BookController extends Controller
     protected $bookRepository;
     protected $authorRepository;
 
-    public function __construct(
-        BookRepositoryInterface $bookRepository,
-        AuthorRepositoryInterface $authorRepository)
+    public function __construct(BookRepositoryInterface $bookRepository, AuthorRepositoryInterface $authorRepository)
     {
         $this->book = $bookRepository;
         $this->author = $authorRepository;

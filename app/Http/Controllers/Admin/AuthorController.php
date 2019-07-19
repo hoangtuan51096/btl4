@@ -11,7 +11,8 @@ class AuthorController extends Controller
 {
     protected $authorRepository;
 
-    public function __construct(AuthorRepositoryInterface $authorRepository){
+    public function __construct(AuthorRepositoryInterface $authorRepository)
+    {
         $this->author = $authorRepository;
     }
 

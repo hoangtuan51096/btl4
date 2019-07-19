@@ -21,6 +21,6 @@ class CheckEndTime implements Rule
 
     public function message()
     {
-        return ':attribute khong dung.';
+        return 'Chon ngay tra khong dung.';
     }
 }

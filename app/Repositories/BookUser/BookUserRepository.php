@@ -68,7 +68,6 @@ class BookUserRepository implements BookUserRepositoryInterface
         } else {
             return true;
         }
-
     }
 
     public function rentBook($data, $userId)
@@ -86,13 +85,13 @@ class BookUserRepository implements BookUserRepositoryInterface
             $addUser = BookUser::create($dataBookUser);
             return $addUser;
         } else {
-        $bookUser->status = 1;
-        $bookUser->end_at = $data['end_at'];
-        $bookUser->save();
-        $book = Book::find($data['id']);
-        $book->status = 1;
-        $book->save();
-        return $bookUser;
+            $bookUser->status = 1;
+            $bookUser->end_at = $data['end_at'];
+            $bookUser->save();
+            $book = Book::find($data['id']);
+            $book->status = 1;
+            $book->save();
+            return $bookUser;
         }
     }
 }

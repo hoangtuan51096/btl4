@@ -15,5 +15,4 @@ interface UserRepositoryInterface extends AbstractRepositoryInterface
     public function getUserRent();
 
     public function getUserEndDate();
-
 }

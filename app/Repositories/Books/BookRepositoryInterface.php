@@ -13,5 +13,4 @@ interface BookRepositoryInterface extends AbstractRepositoryInterface
     public function hardDelete($id);
 
     public function delayBook($bookID, $userID);
-
 }
