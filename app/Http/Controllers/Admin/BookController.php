@@ -23,16 +23,15 @@ class BookController extends Controller
         $this->author = $authorRepository;
     }
 
-    public function index()
+    public function getListBook(Request $request)
     {
         $authors = $this->author->all();
         $listBooks = $this->book->getList();
-        $listBookView = $this->book->getListView();
-        $listBookRent = $this->book->getListRent();
-        $listBookNone = $this->book->getListNone();
-        return view('admin.books.list-books', compact('listBooks', 'authors',
-            'listBookNone', 'listBookRent', 'listBookView'
-        ));
+        $status = "all";
+        if ($request->ajax()) {
+            return view('admin.books.paginate', compact('listBooks', 'authors', 'status'));
+        }
+        return view('admin.books.list-book-ajax', compact('listBooks', 'authors', 'status'));
     }
 
     public function destroy($id)
@@ -43,7 +42,7 @@ class BookController extends Controller
         } else {
             session()->flash('errors', 'Khong the xoa quyen sach');
         }
-        return redirect()->route('book.index');
+        return redirect()->route('listBook');
     }
 
     public function addBook(BookRequest $request)
@@ -67,61 +66,43 @@ class BookController extends Controller
         return view('admin.books.update-book', compact('updateBook', 'rowid'));
     }
 
-    public function getAllTrash()
-    {
-        $authors = $this->author->all();
-        $trashBook = $this->book->getTrash();
-        return view('admin.trash.book-trash', compact('trashBook', 'authors'));
-    }
-
-    public function restoreTrash(Request $request)
-    {
-        $restoreBook = $this->book->restoreTrash($request->id);
-        if ($restoreBook) {
-            session()->flash('status', 'Phuc hoi sach thanh cong');
-        } else {
-            session()->flash('errors', 'Khong co tac gia nen khong thanh cong');
-        }
-        return redirect()->route('allTrashBook');
-    }
-
-    public function deleteTrash(Request $request)
-    {
-        $deleteBook = $this->book->hardDelete($request->id);
-        if ($restoreBook) {
-            session()->flash('status', 'Xoa sach thanh cong');
-        } else {
-            session()->flash('errors', 'Xoa khong thanh cong');
-        }
-        return redirect()->route('allTrashBook');
-    }
-
     public function cancelEditAjax(Request $request)
     {
-        $authors = $this->author->getAllNow();
         $book = $this->book->find($request->id);
         $rowid = $request->rowid;
-        return view('admin.books.cancel-edit', compact('authors', 'book', 'rowid'));
+        return view('admin.books.cancel-edit', compact('book', 'rowid'));
     }
 
     public function getBookView(Request $request)
     {
         $authors = $this->author->getAllNow();
-        $listBookView = $this->book->getListView();
-        return view('admin.books.list-book-view', compact('listBookView', 'authors'));
+        $listBooks = $this->book->getListView();
+        $status = 'view';
+        if ($request->ajax()) {
+            return view('admin.books.paginate', compact('listBooks', 'authors', 'status'));
+        }
+        return view('admin.books.list-book-ajax', compact('listBooks', 'authors', 'status'));
     }
 
     public function getBookRent(Request $request)
     {
         $authors = $this->author->getAllNow();
-        $listBookRent = $this->book->getListRent();
-        return view('admin.books.list-book-rent', compact('listBookRent', 'authors'));
+        $listBooks = $this->book->getListRent();
+        $status = 'rent';
+        if ($request->ajax()) {
+            return view('admin.books.paginate', compact('listBooks', 'authors', 'status'));
+        }
+        return view('admin.books.list-book-ajax', compact('listBooks', 'authors', 'status'));
     }
 
     public function getBookNone(Request $request)
     {
         $authors = $this->author->getAllNow();
-        $listBookNone = $this->book->getListNone();
-        return view('admin.books.list-book-none', compact('listBookNone', 'authors'));
+        $listBooks = $this->book->getListNone();
+        $status = 'none';
+        if ($request->ajax()) {
+            return view('admin.books.paginate', compact('listBooks', 'authors', 'status'));
+        }
+        return view('admin.books.list-book-ajax', compact('listBooks', 'authors', 'status'));
     }
 }

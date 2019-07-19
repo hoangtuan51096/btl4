@@ -58,50 +58,20 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs float-right">
                     <li class="nav-item active">
-                        <a class="nav-link active" id="active" href="{{ route('user.index') }}">Tất cả</a>
+                        <a class="nav-link list-user" data-url="user" data-href="{{ route('user.index') }}">Tất cả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('userRenting') }}">Đang mượn sách</a>
+                        <a class="nav-link list-user" data-url="list-user-rent" data-href="{{ route('userRenting') }}">Đang mượn sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('userEndDate') }}">Chưa trả sách quá hạn</a>
+                        <a class="nav-link list-user" data-url="list-user-end-date" data-href="{{ route('userEndDate') }}">Chưa trả sách quá hạn</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Tên tài khoản</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Tên người dùng</th>
-                    <th scope="col">Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="newRow"></tr>
-                @foreach($allUsers as $key => $user)
-                <tr>
-                    <th scope="row">{{  $key+1 }}</th>
-                    <td>{{ $user->account }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>
-                        <div class="row">
-                            <button name="edit" data-id="{{ $user->id }}" data-rowid="{{ $key+1 }}" class="edit">Sửa</button> 
-                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="Xóa" name="delete"/>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $allUsers->links() }}
+        <div class="content-users" id="tag_container">
+            @include('admin.users.paginate')
+        </div>
     </div>
 @endsection
 

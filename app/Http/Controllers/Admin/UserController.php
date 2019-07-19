@@ -17,10 +17,14 @@ class UserController extends Controller
         $this->user = $userRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $allUsers = $this->user->getList();
-        return view('admin.users.list-users', compact('allUsers'));
+        $status = 'all';
+        if ($request->ajax()) {
+            return view('admin.users.paginate', compact('allUsers', 'status'));
+        }
+        return view('admin.users.list-users', compact('allUsers', 'status'));
     }
     
     public function destroy($id)
@@ -46,17 +50,19 @@ class UserController extends Controller
         $rowid = $request->rowid;
         return view('admin.users.edit-user', compact('user', 'rowid'));
     }
+
+    public function cancelEditAjax(Request $request)
+    {
+        $user = $this->user->find($request->id);
+        $rowid = $request->rowid;
+        return view('admin.users.cancel-edit', compact('user', 'rowid'));
+    }
+
     public function updateUserAjax(Request $request)
     {
         $updateUser = $this->user->update($request->all(), $request->id);
         $rowid = $request->rowid;
         return view('admin.users.update-user', compact('updateUser', 'rowid'));
-    }
-
-    public function getAllTrash()
-    {
-        $trashUser = $this->user->getTrash();
-        return view('admin.trash.user-trash', compact('trashUser'));
     }
 
     public function restoreTrash(Request $request)
@@ -81,15 +87,23 @@ class UserController extends Controller
         return redirect()->route('allTrashUser');
     }
 
-    public function getUserRent()
+    public function getUserRent(Request $request)
     {
-        $userRents = $this->user->getUserRent();
-        return view('admin.users.list-user-rent', compact('userRents'));
+        $allUsers = $this->user->getUserRent();
+        $status = 'rentBook';
+        if ($request->ajax()) {
+            return view('admin.users.paginate', compact('allUsers', 'status'));
+        }
+        return view('admin.users.list-users', compact('allUsers', 'status'));
     }
 
-    public function getUserEndDate()
+    public function getUserEndDate(Request $request)
     {
-        $userEndDates = $this->user->getUserEndDate();
-        return view('admin.users.list-user-end-date', compact('userEndDates'));
+        $allUsers = $this->user->getUserEndDate();
+        $status = 'endDate';
+        if ($request->ajax()) {
+            return view('admin.users.paginate', compact('allUsers', 'status'));
+        }
+        return view('admin.users.list-users', compact('allUsers', 'status'));
     }
 }

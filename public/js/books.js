@@ -21,7 +21,7 @@ $(document).ready(function(){
                 $( '.errors' ).html( errorsHtml );
             },
             success: function(result){
-                $.notify("Them moi thanh cong", "success");
+                $('#result').notify("Them moi thanh cong", "success");
                 $('#newRow').html(result);
                 $('#myModal').modal('hide');
                 $('.modal-backdrop').remove();
@@ -32,11 +32,12 @@ $(document).ready(function(){
         event.preventDefault();
         ajaxLoad('GET', 'edit-book', $(this));
     });
-    $(document).on('click', 'button.cancel-edit', function(event){
+    $(document).on('click', 'button.cancel-edit-book', function(event){
         event.preventDefault();
-        ajaxLoad('GET', 'cancel-edit', $(this));
+        ajaxLoad('GET', 'cancel-edit-book', $(this));
     });
     $(document).on('click', 'button.save-book', function(event){
+        
         event.preventDefault();
         var id = $(this).data('id');
         var rowid = $(this).data('rowid');
@@ -57,4 +58,27 @@ $(document).ready(function(){
             }
         });
     });
+    $(document).on('click', '.list-book', function(event){
+        event.preventDefault();
+        var href = $(this).data('href');
+        var url = $(this).data('url');
+        $('li').removeClass('active');
+        $(this).parent('li').addClass('active');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(result){
+                history.pushState({
+                    id: 'homepage'
+                }, 'pageTitle', href);
+                $('.content-book').html(result);
+            }
+        });
+    });
+    // $(document).on('click', '.list-book', function(event){
+    //     event.preventDefault();
+    //     var myurl = $(this).attr('href');
+    //     var page = $(this).attr('href').split('page=')[1];
+    //     getData(page);
+    // });
 });

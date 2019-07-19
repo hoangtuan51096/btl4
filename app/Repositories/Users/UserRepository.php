@@ -64,7 +64,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getTrash()
     {
-        $trashUser = User::onlyTrashed()->get();
+        $trashUser = User::onlyTrashed()->paginate(5);
         return $trashUser;
     }
 

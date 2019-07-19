@@ -16,9 +16,12 @@ class AuthorController extends Controller
         $this->author = $authorRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $listAuthors = $this->author->getList();
+        if ($request->ajax()) {
+            return view('admin.authors.paginate', compact('listAuthors'));
+        }
         return view('admin.authors.list-authors', compact('listAuthors'));
     }
 
@@ -46,17 +49,18 @@ class AuthorController extends Controller
         return view('admin.authors.edit-author', compact('author', 'rowid'));
     }
 
+    public function cancelEditAjax(Request $request)
+    {
+        $author = $this->author->find($request->id);
+        $rowid = $request->rowid;
+        return view('admin.authors.cancel-edit', compact('author', 'rowid'));
+    }
+
     public function updateAuthorAjax(Request $request)
     {
         $updateAuthor = $this->author->update($request->all(), $request->id);
         $rowid = $request->rowid;
         return view('admin.authors.update-author', compact('updateAuthor', 'rowid'));
-    }
-
-    public function getAllTrash()
-    {
-        $trashAuthor = $this->author->getTrash();
-        return view('admin.trash.author-trash', compact('trashAuthor'));
     }
 
     public function restoreTrash(Request $request)

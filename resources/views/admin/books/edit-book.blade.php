@@ -25,7 +25,7 @@
     <td>
         <div>
             <button class="save-book" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Luu</button>
-            <button class="cancel-edit" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Huy</button>
+            <button class="cancel-edit-book" data-rowid="{{ $rowid }}" data-id="{{ $book->id }}">Huy</button>
         </div>
     </td>
 </form>

@@ -31,7 +31,10 @@ $(document).ready(function(){
         event.preventDefault();
         ajaxLoad('GET', 'edit-author', $(this));
     });
-
+    $(document).on('click', 'button.cancel-edit-author', function(event){
+        event.preventDefault();
+        ajaxLoad('GET', 'cancel-edit-author', $(this));
+    });
     $(document).on('click', 'button.save-author', function() {
         event.preventDefault();
         var id = $(this).data('id');

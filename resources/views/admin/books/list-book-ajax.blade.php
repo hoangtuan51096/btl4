@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="col-md-9">
         <div class="header"> 
             <div>QUAN LY SACH</div>
@@ -9,6 +8,18 @@
     </div>
     <div class="col-md-3">
         <div class="float-left" id="result">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ session('status') }}
+                </div>
+            @endif
+            @if (session('errors'))
+                <div class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ session('errors') }}
+                </div>
+            @endif
         </div>
     </div>
     <div class="container">
@@ -40,56 +51,25 @@
                     </div>
                 </div>
             </div>
-            <div class="collapse navbar-collapse" id="navbarNav">
+           <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('book.index') }}">Tat ca</a>
-                    </li>
-                    <li  class="nav-item">
-                        <a class="nav-link" href="{{ route('bookViewing') }}">Đang xem</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link active" id="active" href="{{ route('bookRenting') }}">Đang mượn</a>
+                        <a class="nav-link list-book" data-url="list-book" data-href="{{ route('listBook') }}">Tat ca</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('bookNone') }}">Chua muon</a>
+                        <a class="nav-link list-book" data-url="list-book-view" data-href="{{ route('bookViewing') }}">Đang xem</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link list-book" data-url="list-book-rent" data-href="{{ route('bookRenting') }}">Đang mượn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link list-book" data-url="list-book-none" data-href="{{ route('bookNone') }}">Chua muon</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <div class="tab-content">
-            <div id="renting" class="">
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Ten sach</th>
-                            <th scope="col">Tac gia</th>
-                            <th scope="col">Trang thai</th>
-                            <th scope="col">Tai khoan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="newRow"></tr>
-                        @foreach($listBookRent as $key => $book)
-                        <tr>
-                            <th scope="row">{{  $key+1 }}</th>
-                            <td>{{ $book->name }}</td>
-                            <td>{{ $book->author->name }}</td>
-                            <td>Dang muon</td>
-                            @foreach($book->users as $user)
-                                @if($user->pivot->status == DANGMUON)
-                                    <td>{{ $user->account }}</td>
-                                @endif
-                            @endforeach
-                        </tr>
-                        @endforeach
-                        <div id="result">
-                        </div>
-                    </tbody>
-                </table>
-                {{ $listBookRent->links() }}
-            </div>
+        <div class="tab-content content-book" id="tag_container">
+            @include('admin.books.paginate')
         </div>
     </div>
 @endsection

@@ -90,7 +90,7 @@ class BookRepository implements BookRepositoryInterface
 
     public function getTrash()
     {
-        $trashBook = Book::onlyTrashed()->with('author')->get();
+        $trashBook = Book::onlyTrashed()->with('author')->paginate(5);
         return $trashBook;
     }
 

@@ -6,7 +6,7 @@
     <td>
         <div>
             <button class="save-user" data-rowid="{{ $rowid }}" data-id="{{ $user->id }}">Luu</button>
-            <button class="cancel" data-rowid="{{ $rowid }}" data-id="{{ $user->id }}">Huy</button>
+            <button class="cancel-edit-user" data-rowid="{{ $rowid }}" data-id="{{ $user->id }}">Huy</button>
         </div>
     </td>
 </form>

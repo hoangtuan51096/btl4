@@ -34,7 +34,11 @@ $(document).ready(function(){
     $(document).on('click', 'button.edit', function(event){
         event.preventDefault();
         ajaxLoad('GET', 'edit-user', $(this));
-    })
+    });
+    $(document).on('click', 'button.cancel-edit-user', function(event){
+        event.preventDefault();
+        ajaxLoad('GET', 'cancel-edit-user', $(this));
+    });
     $(document).on('click', 'button.save-user', function(event){
         event.preventDefault();
         var id = $(this).data('id');
@@ -54,5 +58,22 @@ $(document).ready(function(){
                 tr.html(result);
             }
         });
-    }); 
+    });
+    $(document).on('click', '.list-user', function(event){
+        event.preventDefault();
+        var href = $(this).data('href');
+        var url = $(this).data('url');
+        $('li').removeClass('active');
+        $(this).parent('li').addClass('active');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(result){
+                history.pushState({
+                    id: 'homepage'
+                }, 'pageTitle', href);
+                $('.content-users').html(result);
+            }
+        });
+    });
 });

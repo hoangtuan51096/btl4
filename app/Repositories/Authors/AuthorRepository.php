@@ -66,7 +66,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function getTrash()
     {
-        $trashAuthor = Author::onlyTrashed()->get();
+        $trashAuthor = Author::onlyTrashed()->paginate(5);
         return $trashAuthor;
     }
 

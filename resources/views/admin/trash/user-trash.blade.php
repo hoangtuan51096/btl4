@@ -26,57 +26,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto nav-tabs">
                     <li class="nav-item active">
-                        <a class="nav-link active" id="active" href="{{ route('allTrashUser') }}">Tai khoan</a>
+                        <a class="nav-link list-trash" data-url="trash-user" data-href="{{ route('allTrashUser') }}">Tai khoan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('allTrashBook') }}">Sach</a>
+                        <a class="nav-link list-trash" data-url="trash-book" data-href="{{ route('allTrashBook') }}">Sach</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('allTrashAuthor') }}">Tac gia</a>
+                        <a class="nav-link list-trash" data-url="trash-author" data-href="{{ route('allTrashAuthor') }}">Tac gia</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <div id="viewTrash">
-             <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Ten tai khoan</th>
-                        <th scope="col">Ten nguoi dung</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Ngay xoa</th>
-                        <th scope="col">Hanh dong</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($trashUser as $key => $user)
-                    <tr>
-                        <th scope="row">{{  $key+1 }}</th>
-                        <td>{{ $user->account }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->deleted_at}}</td>
-                        <td>
-                            <div class="row">
-                                <form action="{{ route('restoreUser') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $user->id }}">
-                                    <button type="submit">RESTORE</button>
-                                </form>
-                                <form action="{{ route('deleteUser') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $user->id }}">
-                                    <input onclick="return confirm('Ban co chac muon xoa tai khoan nay hay khong?');" type="submit" class="" value="DELETE" name="delete"/>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                    <div id="result">
-                    </div>
-                </tbody>
-            </table>
+        <div id="tag_container" class="content-trash">
+            @include ('admin.trash.paginate')
         </div>
     </div>
 @endsection
