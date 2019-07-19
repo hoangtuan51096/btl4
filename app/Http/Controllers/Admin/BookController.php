@@ -27,7 +27,12 @@ class BookController extends Controller
     {
         $authors = $this->author->all();
         $listBooks = $this->book->getList();
-        return view('admin.books.list-books', compact('listBooks', 'authors'));
+        $listBookView = $this->book->getListView();
+        $listBookRent = $this->book->getListRent();
+        $listBookNone = $this->book->getListNone();
+        return view('admin.books.list-books', compact('listBooks', 'authors',
+            'listBookNone', 'listBookRent', 'listBookView'
+        ));
     }
 
     public function destroy($id)
@@ -43,7 +48,7 @@ class BookController extends Controller
 
     public function addBook(BookRequest $request)
     {
-        $addBook = $this->book->create($request->getAllNow());
+        $addBook = $this->book->create($request->all());
         return view('admin.books.create-book', compact('addBook'));
     }
 
